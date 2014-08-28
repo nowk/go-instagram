@@ -1,6 +1,7 @@
 # go-instagram
 
 [![Build Status](https://travis-ci.org/nowk/go-instagram.svg?branch=master)](https://travis-ci.org/nowk/go-instagram)
+[![GoDoc](https://godoc.org/gopkg.in/nowk/go-instagram.v0?status.svg)](http://godoc.org/gopkg.in/nowk/go-instagram.v0)
 
 Instagram client in Go
 
