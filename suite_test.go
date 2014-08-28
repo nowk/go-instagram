@@ -15,8 +15,8 @@ func tNewInstagram(t *testing.T) (ig *Instagram, mock *mockhttpc.Mock) {
 	mock = mockhttpc.NewMock(t)
 	ig = &Instagram{
 		AccessToken: AccessToken,
-		HTTPClient:  mock.HTTPClient,
 	}
+	ig.HTTPClient = mock.HTTPClient
 
 	// mount endpoints
 	ig.Users = NewUsers(ig)
@@ -27,6 +27,17 @@ func tNewInstagram(t *testing.T) (ig *Instagram, mock *mockhttpc.Mock) {
 	ig.Tags = NewTags(ig)
 	ig.Locations = NewLocations(ig)
 	ig.Geographies = NewGeographies(ig)
+
+	return
+}
+
+func tNewRealTime(t *testing.T, clientid, clientSecret string) (rt *RealTime, mock *mockhttpc.Mock) {
+	mock = mockhttpc.NewMock(t)
+	rt = &RealTime{
+		ClientID:     clientid,
+		ClientSecret: clientSecret,
+	}
+	rt.HTTPClient = mock.HTTPClient
 
 	return
 }

@@ -1,10 +1,7 @@
 package instagram
 
-import "encoding/json"
-import "io"
 import "net/http"
 import "net/url"
-import . "github.com/nowk/go-httpclienti"
 
 const VERSION = "0.0.0"
 
@@ -15,9 +12,9 @@ const (
 // Instagram is a struct to create a *client* handling requests out to Instagram
 // endpoints
 type Instagram struct {
+	API
+
 	AccessToken         string
-	HTTPClient          HTTPClient
-	RateLimit           *RateLimit
 	EnforceSignedHeader *EnforceSignedHeader
 
 	Users         *Users
@@ -34,8 +31,8 @@ type Instagram struct {
 func NewClient(accessToken string) (ig *Instagram) {
 	ig = &Instagram{
 		AccessToken: accessToken,
-		HTTPClient:  http.DefaultClient,
 	}
+	ig.HTTPClient = http.DefaultClient
 
 	// mount endpoints
 	ig.Users = NewUsers(ig)
@@ -74,46 +71,17 @@ func (i *Instagram) SetSignedHeader(secret string, ips ...string) error {
 	return nil
 }
 
-// Call takes a Endpoint and *data* struct, makes the request and maps the
-// returned data back to give *data* struct
+// Call preps the http.Request from the Endpoint and provides additional headers
+// then calls the request on API
 func (i *Instagram) Call(ep *Endpoint, data interface{}) error {
-	resp, err := i.request(ep)
-	if err != nil {
-		return err
-	}
-
-	i.RateLimit = NewRateLimit(&resp.Header)
-
-	err = decode(resp.Body, &data)
-	if err != err {
-		return err
-	}
-
-	// return RateLimitError, as the response will still be OK
-	if resp.StatusCode == _RateLimitErrorStatusCode {
-		return RateLimitError{}
-	}
-
-	return err
-}
-
-// request requests an http.Request to the given Endpoint
-func (i Instagram) request(ep *Endpoint) (*http.Response, error) {
 	req, err := ep.Request()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if i.EnforceSignedHeader != nil {
 		req.Header.Add("X-Insta-Forwarded-For", i.EnforceSignedHeader.String())
 	}
 
-	return i.HTTPClient.Do(req)
-}
-
-// decode decodes the give io.ReadCloser (http.Response.Body) to the
-// *data* struct
-func decode(body io.ReadCloser, data interface{}) error {
-	defer body.Close()
-	return json.NewDecoder(body).Decode(&data)
+	return i.API.Call(req, &data)
 }

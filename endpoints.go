@@ -73,6 +73,14 @@ const (
 	GeographiesMediaRecent
 )
 
+// Real-time
+const (
+	_realtime = iota + 80
+	RealTimeSubscribe
+	RealTimeUnsubscribe
+	RealTimeSubscriptions
+)
+
 // endpoint provides a structure to create METHOD / URL patterns that
 // map to an Instagram endpoint
 type endpoint struct {
@@ -110,4 +118,7 @@ var Endpoints = map[int]endpoint{
 	LocationsMediaRecent:         endpoint{_GET, "/locations/%v/media/recent"},
 	LocationsSearch:              endpoint{_GET, "/locations/search"},
 	GeographiesMediaRecent:       endpoint{_GET, "/geographies/%v/media/recent"},
+	RealTimeSubscribe:            endpoint{_POST, "/subscriptions"},
+	RealTimeUnsubscribe:          endpoint{_DELETE, "/subscriptions"},
+	RealTimeSubscriptions:        endpoint{_GET, "/subscriptions"},
 }
