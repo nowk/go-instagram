@@ -1,6 +1,5 @@
 package instagram
 
-import "fmt"
 import "net/url"
 import "github.com/nowk/go-instagram/jsons"
 
@@ -46,9 +45,9 @@ func (u Users) MediaRecent(userid interface{}, p ...map[string]string) (data *js
 
 // MediaRecentCID - The functionality is the same as `MediaRecent()`, but use
 // `client_id` instead of access_token.
-func (u Users) MediaRecentCID(clientid interface{}, p ...map[string]string) (data *jsons.Medias, err error) {
-	endp := NewEndpoint(UsersMediaRecent, url.Values{}, clientid)
-	endp.Query.Add("client_id", fmt.Sprintf("%v", clientid))
+func (u Users) MediaRecentCID(userid interface{}, clientid string, p ...map[string]string) (data *jsons.Medias, err error) {
+	endp := NewEndpoint(UsersMediaRecent, url.Values{}, userid)
+	endp.Query.Add("client_id", clientid)
 	endp.AppendQuery(p...)
 	err = u.API.Call(endp, &data)
 
