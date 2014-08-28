@@ -1,6 +1,5 @@
 package instagram
 
-import "fmt"
 import "net/url"
 import "github.com/nowk/go-instagram/jsons"
 
@@ -20,9 +19,9 @@ func NewGeographies(API *Instagram) (geo *Geographies) {
 
 // MediaRecentCID - Get recent media from a geography subscription that you
 // created.
-func (g Geographies) MediaRecentCID(geoid, clientid interface{}, p ...map[string]string) (data *jsons.Medias, err error) {
+func (g Geographies) MediaRecentCID(geoid interface{}, clientid string, p ...map[string]string) (data *jsons.Medias, err error) {
 	endp := NewEndpoint(GeographiesMediaRecent, url.Values{}, geoid)
-	endp.Query.Add("client_id", fmt.Sprintf("%v", clientid))
+	endp.Query.Add("client_id", clientid)
 	endp.AppendQuery(p...)
 	err = g.API.Call(endp, &data)
 
