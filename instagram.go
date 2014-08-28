@@ -84,7 +84,7 @@ func (i *Instagram) Call(ep *Endpoint, data interface{}) error {
 
 	i.RateLimit = NewRateLimit(&resp.Header)
 
-	err = i.decode(resp.Body, &data)
+	err = decode(resp.Body, &data)
 	if err != err {
 		return err
 	}
@@ -113,7 +113,7 @@ func (i Instagram) request(ep *Endpoint) (*http.Response, error) {
 
 // decode decodes the give io.ReadCloser (http.Response.Body) to the
 // *data* struct
-func (i Instagram) decode(body io.ReadCloser, data interface{}) error {
+func decode(body io.ReadCloser, data interface{}) error {
 	defer body.Close()
 	return json.NewDecoder(body).Decode(&data)
 }
