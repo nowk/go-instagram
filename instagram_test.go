@@ -20,7 +20,7 @@ func TestRateLimit(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/feed\?access_token=\w+$`)
-	resp := mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	resp, _ := mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
 	resp.Header.Add("X-Ratelimit-Remaining", "3000")
 	resp.Header.Add("X-Ratelimit-Limit", "5000")
 
