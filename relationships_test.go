@@ -52,8 +52,7 @@ func TestRelationshipsRelationship(t *testing.T) {
 
 	assert.Equal(t, data.Meta.Code, 203)
 	assert.TypeOf(t, "*jsons.Relationship", data)
-	// TODO create a named struct to assert
-	// assert.TypeOf(t, "struct", data.Data)
+	assert.TypeOf(t, "jsons.RelationshipData", data.Data)
 }
 
 func TestRelationshipsPost(t *testing.T) {
@@ -69,8 +68,7 @@ func TestRelationshipsPost(t *testing.T) {
 
 	assert.Equal(t, data.Meta.Code, 204)
 	assert.TypeOf(t, "*jsons.Relationship", data)
-	// TODO create a named struct to assert
-	// assert.TypeOf(t, "struct", data.Data)
+	assert.TypeOf(t, "jsons.RelationshipData", data.Data)
 
 	mres.RequestBody().Equals("action=follow")
 }
