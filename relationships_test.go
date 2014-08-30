@@ -60,8 +60,7 @@ func TestRelationshipsPost(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/relationship\?access_token=\w+$`)
-	mock.Register("POST", reg, 200, `{"meta": {"code": 204}}`)
-	// TODO validate post data
+	_, mres := mock.Register("POST", reg, 200, `{"meta": {"code": 204}}`)
 
 	data, err := api.Relationships.Post(12345, "follow")
 	if err != nil {
@@ -72,4 +71,6 @@ func TestRelationshipsPost(t *testing.T) {
 	assert.TypeOf(t, "*jsons.Relationship", data)
 	// TODO create a named struct to assert
 	// assert.TypeOf(t, "struct", data.Data)
+
+	mres.RequestBody().Equals("action=follow")
 }

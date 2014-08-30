@@ -20,13 +20,15 @@ func TestCommentsPost(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/\d+\/comments\?access_token=\w+$`)
-	mock.Register("POST", reg, 200, `{"meta": {"code": 201}}`)
+	_, mres := mock.Register("POST", reg, 200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Comments.Post(12345, "Hello World")
 
 	assert.Equal(t, data.Meta.Code, 201)
 	assert.TypeOf(t, "*jsons.Comment", data)
 	assert.TypeOf(t, "jsons.CommentData", data.Data)
+
+	mres.RequestBody().Equals("text=Hello World")
 }
 
 func TestCommentsDelete(t *testing.T) {
