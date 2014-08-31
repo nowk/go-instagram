@@ -67,5 +67,5 @@ func TestRelationshipsPost(t *testing.T) {
 	assert.TypeOf(t, "*jsons.Relationship", data)
 	assert.TypeOf(t, "jsons.RelationshipData", data.Data)
 
-	mres.RequestBody().Equals("action=follow")
+	mres.Body().Equals("action=follow")
 }

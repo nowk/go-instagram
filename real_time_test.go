@@ -26,7 +26,7 @@ func TestRealTimeSubscribe(t *testing.T) {
 	v.Add("verify_token", "token")
 	v.Add("callback_url", "http://example.com/rt/user")
 	v.Add("object_id", "notifier")
-	mres.RequestBody().Equals(v.Encode())
+	mres.Body().Equals(v.Encode())
 }
 
 func TestRealTimeUnsubscribe(t *testing.T) {

@@ -28,7 +28,7 @@ func TestCommentsPost(t *testing.T) {
 	assert.TypeOf(t, "*jsons.Comment", data)
 	assert.TypeOf(t, "jsons.CommentData", data.Data)
 
-	mres.RequestBody().Equals("text=Hello World")
+	mres.Body().Equals("text=Hello World")
 }
 
 func TestCommentsDelete(t *testing.T) {
