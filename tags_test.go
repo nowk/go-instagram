@@ -7,7 +7,7 @@ func TestTagsName(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/tags\/\w+\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Tags.Name("Foo")
 
@@ -20,7 +20,7 @@ func TestTagsMediaRecent(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/tags\/\w+\/media\/recent\?access_token=\w+&count=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Tags.MediaRecent("Foo", map[string]string{
 		"count": "50",
@@ -35,7 +35,7 @@ func TestTagsSearch(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/tags\/search\?access_token=\w+&q=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Tags.Search("Foo")
 

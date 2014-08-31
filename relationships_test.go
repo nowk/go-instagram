@@ -7,7 +7,7 @@ func TestRelationshipsFollows(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/follows\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Relationships.Follows(123)
 
@@ -20,7 +20,7 @@ func TestRelationshipsFollowedBy(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/followed-by\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Relationships.FollowedBy(123)
 
@@ -33,7 +33,7 @@ func TestRelationshipsSelfRequestedBy(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/requested-by\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Relationships.SelfRequestedBy()
 
@@ -46,7 +46,7 @@ func TestRelationshipsRelationship(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/relationship\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 203}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 203}}`)
 
 	data, _ := api.Relationships.Relationship(12345)
 
@@ -59,7 +59,7 @@ func TestRelationshipsPost(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/relationship\?access_token=\w+$`)
-	_, mres := mock.Register("POST", reg, 200, `{"meta": {"code": 204}}`)
+	_, mres := mock.Expect("POST", reg).Respond(200, `{"meta": {"code": 204}}`)
 
 	data, _ := api.Relationships.Post(12345, "follow")
 

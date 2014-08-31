@@ -1,7 +1,7 @@
 language: go
 install:
   - go get github.com/nowk/go-httpclienti
-  - go get github.com/nowk/go-mockhttpc
+  - go get gopkg.in/nowk/go-netmock.v0
   - go get github.com/nowk/assert
 go:
   # - "1.0" # fails due to url.Values order

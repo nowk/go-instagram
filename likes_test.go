@@ -7,7 +7,7 @@ func TestLikesLikes(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/\d+\/likes\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Likes.Likes(12345)
 
@@ -20,7 +20,7 @@ func TestLikesPost(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/\d+\/likes\?access_token=\w+$`)
-	mock.Register("POST", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("POST", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Likes.Post(12345)
 
@@ -33,7 +33,7 @@ func TestLikesDelete(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/\d+\/likes\?access_token=\w+$`)
-	mock.Register("DELETE", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("DELETE", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Likes.Delete(12345)
 

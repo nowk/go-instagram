@@ -7,7 +7,7 @@ func TestUsersSelfFeed(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/feed\?access_token=\w+&count=\d+&max_id=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Users.SelfFeed(map[string]string{
 		"count":  "50",
@@ -23,7 +23,7 @@ func TestUsersUser(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\?access_token=`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Users.User(1234)
 
@@ -36,7 +36,7 @@ func TestUsersMediaRecent(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/media\/recent\?access_token=\w+&count=\d+&min_id=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Users.MediaRecent(1234, map[string]string{
 		"count":  "50",
@@ -52,7 +52,7 @@ func TestUsersMediaRecentCID(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/\d+\/media\/recent\?client_id=clientid&count=\d+&min_id=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 203}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 203}}`)
 
 	data, _ := api.Users.MediaRecentCID(1234, "clientid", map[string]string{
 		"count":  "50",
@@ -68,7 +68,7 @@ func TestUsersSelfMediaLiked(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/media\/liked\?access_token=\w+&count=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 204}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 204}}`)
 
 	data, _ := api.Users.SelfMediaLiked(map[string]string{
 		"count": "50",
@@ -83,7 +83,7 @@ func TestUsersSearch(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/search\?access_token=\w+&count=\d+&q=foo\+bar$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 205}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 205}}`)
 
 	data, _ := api.Users.Search("foo bar", map[string]string{
 		"count": "50",

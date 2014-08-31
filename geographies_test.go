@@ -7,7 +7,7 @@ func TestGeographiesMediaRecentCID(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/geographies\/\d+\/media\/recent\?client_id=clientid&count=\d+&min_id=\d+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Geographies.MediaRecentCID(12345, "clientid", map[string]string{
 		"count":  "50",

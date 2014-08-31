@@ -1,11 +1,11 @@
 package testing
 
 import "testing"
-import "github.com/nowk/go-mockhttpc"
 import . "github.com/nowk/go-instagram"
+import "gopkg.in/nowk/go-netmock.v0"
 
-func NewInstagramT(t *testing.T, accessToken string) (ig *Instagram, mock *mockhttpc.Mock) {
-	mock = mockhttpc.NewMock(t)
+func NewInstagramT(t *testing.T, accessToken string) (ig *Instagram, mock *netmock.Mock) {
+	mock = netmock.NewMock(t)
 	ig = &Instagram{
 		AccessToken: accessToken,
 	}
@@ -24,8 +24,8 @@ func NewInstagramT(t *testing.T, accessToken string) (ig *Instagram, mock *mockh
 	return
 }
 
-func NewRealTimeT(t *testing.T, clientid, clientSecret string) (rt *RealTime, mock *mockhttpc.Mock) {
-	mock = mockhttpc.NewMock(t)
+func NewRealTimeT(t *testing.T, clientid, clientSecret string) (rt *RealTime, mock *netmock.Mock) {
+	mock = netmock.NewMock(t)
 	rt = &RealTime{
 		ClientID:     clientid,
 		ClientSecret: clientSecret,

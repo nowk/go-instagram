@@ -7,7 +7,7 @@ func TestMediaMedia(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/\d+\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Media.Media(1234)
 
@@ -20,7 +20,7 @@ func TestMediaShortcode(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/shortcode\/\d+\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Media.Shortcode(1234)
 
@@ -33,7 +33,7 @@ func TestMediaSearch(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/search\?access_token=\w+&distance=\d+&lat=(\d+\.\d+)&lng=(\d+\.\d+)$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Media.Search(40.7127, 74.0059, map[string]string{
 		"distance": "10000",
@@ -48,7 +48,7 @@ func TestMediaPopular(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/media\/popular\?access_token=\w+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 203}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 203}}`)
 
 	data, _ := api.Media.Popular()
 

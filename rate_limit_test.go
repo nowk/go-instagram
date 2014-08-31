@@ -7,7 +7,7 @@ func TestRateLimitError(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/feed\?access_token=\w+$`)
-	mock.Register("GET", reg, 429, `{"meta": {"code": 429}}`)
+	mock.Expect("GET", reg).Respond(429, `{"meta": {"code": 429}}`)
 
 	data, err := api.Users.SelfFeed()
 
@@ -20,7 +20,7 @@ func TestRateLimit(t *testing.T) {
 	api, mock := tNewInstagram(t)
 
 	reg := regmc(`v1\/users\/self\/feed\?access_token=\w+$`)
-	resp, _ := mock.Register("GET", reg, 200, `{"meta": {"code": 200}}`)
+	resp, _ := mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 200}}`)
 	resp.Header.Add("X-Ratelimit-Remaining", "3000")
 	resp.Header.Add("X-Ratelimit-Limit", "5000")
 

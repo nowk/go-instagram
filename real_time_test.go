@@ -8,7 +8,7 @@ func TestRealTimeSubscribe(t *testing.T) {
 	api, mock := tNewRealTime(t, "my-clientid", "a-secret")
 
 	reg := regmc(`v1\/subscriptions$`)
-	_, mres := mock.Register("POST", reg, 200, `{"meta": {"code": 200}}`)
+	_, mres := mock.Expect("POST", reg).Respond(200, `{"meta": {"code": 200}}`)
 
 	data, _ := api.Subscribe("tag", "token", "http://example.com/rt/user", map[string]string{
 		"object_id": "notifier",
@@ -33,7 +33,7 @@ func TestRealTimeUnsubscribe(t *testing.T) {
 	api, mock := tNewRealTime(t, "my-clientid", "a-secret")
 
 	reg := regmc(`v1\/subscriptions\?client_id=[a-z-]+&client_secret=[a-z-]+&id=\d+$`)
-	mock.Register("DELETE", reg, 200, `{"meta": {"code": 201}}`)
+	mock.Expect("DELETE", reg).Respond(200, `{"meta": {"code": 201}}`)
 
 	data, _ := api.Unsubscribe("id", "1234")
 
@@ -44,7 +44,7 @@ func TestRealTimeSubscriptions(t *testing.T) {
 	api, mock := tNewRealTime(t, "my-clientid", "a-secret")
 
 	reg := regmc(`v1\/subscriptions\?client_id=[a-z-]+&client_secret=[a-z-]+$`)
-	mock.Register("GET", reg, 200, `{"meta": {"code": 202}}`)
+	mock.Expect("GET", reg).Respond(200, `{"meta": {"code": 202}}`)
 
 	data, _ := api.Subscriptions()
 
