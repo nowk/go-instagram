@@ -3,6 +3,9 @@ package instagram
 import "net/http"
 import "net/url"
 import "strings"
+import "crypto/hmac"
+import "crypto/sha1"
+import "encoding/hex"
 import "github.com/nowk/go-instagram/jsons"
 
 // RealTime creates a Client for executing RealTime only related requests
@@ -79,4 +82,11 @@ func (r RealTime) Subscriptions() (data *jsons.Subscriptions, err error) {
 	err = r.Call(endp, &data)
 
 	return
+}
+
+// ValidSignature verify if the signature sent by Instagram is valid
+func (r RealTime) ValidSignature(body []byte, signature string) bool {
+	hash := hmac.New(sha1.New, []byte(r.ClientSecret))
+	hash.Write(body)
+	return hex.EncodeToString(hash.Sum(nil)) == signature
 }
